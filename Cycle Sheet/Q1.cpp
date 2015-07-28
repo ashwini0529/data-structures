@@ -1,136 +1,91 @@
+/*Q1. Implement Stack ADT (Abstract Data Type) with main ADT functions like push(), pop(), isStackEmpty(),
+isStackFull().Use Structure or Class for defining the ADT. Use Static Array as a Data Member it can be of any
+type (Primitive or User-defined).Declare necessary parameters and return types for the functions..
+
+To define the ADT, Structure is used.
+
+
+*/
 #include<iostream>
-#include<stack>
 using namespace std;
+#define SIZE 10
 
-// Declaring a class Stack with basic stack functionalities.
-class Stack 
-{
-\\
-    	const int max = 100;
-		int arr[max];
-		int top;
-	//public member
-	public:
-		Stack()	
-		{
-			top=-1;
-		}
-		bool isEmpty();
-		bool isFull;
-		int pop();
-		void push (int x);
-}; //End of class.
 
-// Function to check if stack is empty or not...
-bool Stack::isEmpty()
-{
-	if (top==-1)
-	{
-		return true;
-	}
-	else return false;
-}
-bool Stack::isFull()
-{
-	if(top=max-1)
-	{
-		return true;
-		
-	}
-	else return false;
-}
-//Function to remove a stack member. (Also known as pop)
-int Stack::pop()
-{
-	if(isEmpty())
-	{
-		cout<<"Stack Underflow/ Empty";
-		abort();
-		
-	}
-	else
-	{
-		int x=arr[top];
-		top--;
-		return x;	
-	}
-}
-void Stack::push(int x)
-{
-	if(isFull())
-	{
-		cout<<"Stack Overflow";
-		abort();
-		
-	}
-	else 
-	{
-		top++;
-		arr[top]=x;
-	}
-}
-
-/* A class that supports all the stack operations and one additional
-  operation getMin() that returns the minimum element from stack at
-  any time.  This class inherits from the stack class and uses an
-  auxiliarry stack that holds minimum elements */
-class SpecialStack: public Stack
-{
-    Stack min;
-public:
-    int pop();
-    void push(int x);
-    int getMin();
+struct stack { 
+  stack();            
+  void push(int a); 
+  int pop();         
+  int isStackEmpty();
+  int isStackFull();
+private:
+  int stackData[SIZE]; 
+  int topOfStack;       
 };
- 
-/* SpecialStack's member method to insert an element to it. This method
-   makes sure that the min stack is also updated with appropriate minimum
-   values */
-void SpecialStack::push(int x)
+int stack::isStackFull()
 {
-    if(isEmpty()==true)
-    {
-        Stack::push(x);
-        min.push(x);
-    }
-    else
-    {
-        Stack::push(x);
-        int y = min.pop();
-        min.push(y);
-        if( x < y )
-          min.push(x);
-        else
-          min.push(y);
-    }
+	if(topOfStack==SIZE)
+	{
+		return 1; //Stack us full
+	}
+	else return 0;//Stack is empty
+	
 }
- 
-/* SpecialStack's member method to remove an element from it. This method
-   removes top element from min stack also. */
-int SpecialStack::pop()
+int stack::isStackEmpty()
 {
-    int x = Stack::pop();
-    min.pop();
-    return x;
+	if(topOfStack==0)
+	{
+		return 0;
+	}
+	else return 1;
 }
- 
-/* SpecialStack's member method to get minimum element from it. */
-int SpecialStack::getMin()
+stack::stack()
 {
-    int x = min.pop();
-    min.push(x);
-    return x;
-}
+  cout << "Constructing a stack\n";
+  topOfStack = 0;
+}	
+void stack::push(int a)
+{
+  int isFull=isStackFull();
+  if(isFull==1)
+  {
+  	cout<<"Stack is Full....";
+  	return;
+  }
  
-/* Driver program to test SpecialStack methods */
+  stackData[topOfStack] = a;
+  topOfStack++;
+}
+int stack::pop()
+{
+  int isEmpty = isStackEmpty();
+  
+  if(isEmpty==0) {
+    cout << "Stack is empty\n";
+    return 0; // return null on empty stack 
+  }
+  topOfStack--;
+  return stackData[topOfStack];
+}
+
 int main()
 {
-    SpecialStack s;
-    s.push(10);
-    s.push(20);
-    s.push(30);
-    cout<<s.getMin()<<endl;
-    s.push(5);
-    cout<<s.getMin();
-    return 0;
+  stack stackObject1, stackObject2; 
+  int i;
+
+  stackObject1.push(8);
+  stackObject2.push(1);
+  stackObject1.push(2);
+  stackObject2.push(6);
+  stackObject1.push(3);
+  stackObject2.push(4);
+
+  for(i = 0; i <3; i++) 
+     cout << "Pop stackObject1: " << stackObject1.pop() << endl;
+  for(i = 0; i <3; i++) 
+     cout << "Pop stackObject2: " << stackObject2.pop() << endl;
+
+  return 0;
 }
+
+
+
